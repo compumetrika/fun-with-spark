@@ -14,11 +14,11 @@ Here are some sections:
 
 ## Installing PySpark
 
-These steps are for Ubuntu 16.04. They will likely work for other Ubuntu/Debian versions, and variations on this theme should work for non-Linux systems. I follow the steps from [Datacamp here](https://www.datacamp.com/community/tutorials/apache-spark-python), more or less.
+These steps are for (X)Ubuntu 16.04. They will likely work for other Ubuntu/Debian flavors, and high-level variations on this theme should work for non-Linux systems. I use the steps from [Datacamp here](https://www.datacamp.com/community/tutorials/apache-spark-python), as inspiration, with my own variations.
 
 Steps:
 
-1. Ensure you have Java JDK (8 is most stable/recommended currently):
+1. Ensure you have Java JDK (currently 8 is most stable/recommended):
 
     java -version
     javac -version
@@ -41,10 +41,23 @@ Steps:
 
 4. Unpack it and move to correct location:
 
-     tar -xf spark-2.1.0-bin-hadoop2.7.tgz
-     sudo mkdir /usr/local/spark/  # if it doesn't already exist
-     sudo mv spark-2.1.0-bin-hadoop2.7.tgz /usr/local/spark/
-        
+    tar -xf spark-2.1.0-bin-hadoop2.7.tgz
+    mv spark-2.1.0-bin-hadoop2.7  ~/
+
+5. Update your .bashrc to point to the spark/bin:
+
+    cp ~/.bashrc ~/.bashrc-pyspark.bak  # create backup .bashrc, always good idea
+    vim ~/.bashrc     # Sorry Chris!
+    # Add this line at the end fo the file:
+    #     export PATH="~/spark-2.1.0-bin-hadoop2.7/bin/:$PATH"
+    # ...where you can replace "~/" with "/home/{your_username}/" if you want.
+
+6. Open new command line window and ensure that you can start pyspark from command line:
+
+    pyspark
+
+
+
 Code snippet comparing checksums:
         
     # Manually constructed hash:
