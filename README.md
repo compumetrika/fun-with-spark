@@ -95,4 +95,4 @@ For example, the checksum I downloaded for spark looks like this:
                                    DEBB5DF7 C56D673C 0A36E5FC 49503EC0 F4507EB0
                                    EDF961A4
 
-They helpfully arange it into groups of eight, in rows of five, so I know that there are 8*16 characters. Since sha uses hexidecimal (numbers and letters A-F), each character needs 4 bits to represent it (sum([2**x for x in range(4)]) + 1), so total bits needed = 8*16*4 = 512 -- we'll need to use the sha512sum function. 
+They helpfully arange it into groups of eight, in rows of five, so I know that there are 8\*16 characters. Since sha uses hexidecimal (numbers and letters A-F), each character needs 4 bits to represent it (sum([2\*\*x for x in range(4)]) + 1), so total bits needed = 8\*16\*4 = 512 -- we'll need to use the sha512sum function. 
