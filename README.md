@@ -53,17 +53,28 @@ Steps:
 
     export PATH="~/spark-2.1.0-bin-hadoop2.7/bin/:$PATH"
 
-7. Open new command line window and ensure that you can start pyspark from command line:
+7. Open new command line window and ensure that you can start pyspark from command line, or [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html) a job:
 
     pyspark  # or
     
-    pyspark --master local[2]
+    pyspark --master local[4]
 
-8. Now let's start a [Spark-powered notebook](https://spark.apache.org/docs/latest/programming-guide.html#using-the-shell):
+8. Let's test it with an example file -- if successful should see "Pi is roughly 3.14xxx..." in mess of results:
 
-    IPYTHON=1 ./bin/pyspark  # or
+    cd ~/spark-2.1.0-bin-hadoop2.7/examples/src/main/python
+    spark-submit pi.py
+
+9. Now the good stuff: we can use a Spark-powered [IPython command line](https://spark.apache.org/docs/latest/programming-guide.html#using-the-shell) as follows:
+
+    PYSPARK_DRIVER_PYTHON=ipython pyspark    
+
+10. ... or start a Spark-powered Jupyter notebook, hints [here](https://community.hortonworks.com/articles/75551/installing-and-exploring-spark-20-with-jupyter-not.html):
     
-    IPYTHON_OPTS="notebook --pylab inline" ./bin/pyspark
+    PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook' pyspark # or 
+    
+    PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook' PYSPARK_PYTHON=python3 pyspark # if py3 
+    
+
 
 
 ### 1.1 Code snippet comparing checksums:
@@ -77,7 +88,7 @@ Steps:
 
 ## 2.0 Running a Basic, Local Example
 
-Please see this notebook. 
+Please see this notebook: [Spark Simple Regression Example]()
 
 ## 3.0 Running on the Cloud
 
@@ -95,6 +106,13 @@ Pages I found useful:
 - Running IPython/Jupyter notebooks under PySpark:
     - [Spark homepage instructions](https://spark.apache.org/docs/0.9.0/python-programming-guide.html)
     - Tutorials: [Supergloo tutorial](https://www.supergloo.com/fieldnotes/apache-spark-ipython-notebook-easy-way/), [Dataquest.io](https://www.dataquest.io/blog/pyspark-installation-guide/), [John Ramey](http://ramhiser.com/2015/02/01/configuring-ipython-notebook-support-for-pyspark/)
+- Running Spark clusters on AWS -- things to try:
+    - Insight Data Labs Blog: 
+        - [Spark Cluster Step by Step](http://blog.insightdatalabs.com/spark-cluster-step-by-step/)
+        - [Running a massive job via Jupyter](http://blog.insightdatalabs.com/jupyter-on-apache-spark-step-by-step/)
+    - [Jupyter notebook on AWS](https://medium.com/@josemarcialportilla/getting-spark-python-and-jupyter-notebook-running-on-amazon-ec2-dec599e1c297)
+- [Old Faithful data from R](http://www.stat.cmu.edu/~larry/all-of-statistics/=data/faithful.dat)
+    - s/eruptions/duration  (for clarity)
 
 
 ### A.1 - A Note on Checksums
