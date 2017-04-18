@@ -48,11 +48,12 @@ Steps:
 
     cp ~/.bashrc ~/.bashrc-pyspark.bak  # create backup .bashrc, always good idea
     vim ~/.bashrc     # Sorry Chris!
-    # Add this line at the end fo the file:
-    #     export PATH="~/spark-2.1.0-bin-hadoop2.7/bin/:$PATH"
-    # ...where you can replace "~/" with "/home/{your_username}/" if you want.
 
-6. Open new command line window and ensure that you can start pyspark from command line:
+6. Add this line at the end of the file, where you can replace "~/" with "/home/{your_username}/" if you want.
+
+    export PATH="~/spark-2.1.0-bin-hadoop2.7/bin/:$PATH"
+
+7. Open new command line window and ensure that you can start pyspark from command line:
 
     pyspark
 
