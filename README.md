@@ -2,7 +2,7 @@
 
 Parallel computation is one of the easiest ways to throw computational power at a problem. Technological development has made it cheaper and cheaper for the average person to do this. 
 
-Here's an example. A long time ago [PiCloud](https://web.archive.org/web/20130805174353/http://www.picloud.com/) made access to "effectively unlimited" parallel computation (on Amazon Web Service Service) astonishingly easy from Python. Their homepage (if it still loads well enough from archive.org) shows the simple example: load a [library](https://pypi.python.org/pypi/cloud), spool up some remote machines, run your function on the remote mahines, gather results. It really was that easy -- more than once I executed hundreds of machine-hours of dissertation research over an evening. 
+Here's an example. A long time ago [PiCloud](https://web.archive.org/web/20130805174353/http://www.picloud.com/) made access to "effectively unlimited" parallel computation (on Amazon Web Service Service) astonishingly easy from Python. Their homepage (if it still loads well enough from archive.org) shows the simple example: load a [library](https://pypi.python.org/pypi/cloud), spool up some remote machines, run your function on the remote mahines, gather results. It really was that easy -- more than once I executed hundreds of machine-hours of dissertation research over an evening. [Pricing](https://web.archive.org/web/20130727210823/http://www.picloud.com:80/pricing/) was calculated by the *millisecond*, starting at $0.05 per 1.2 Ghz CPU-hour of work.
 
 Unfortunately their business model did [not appear sustainable](https://www.crunchbase.com/organization/picloud/timeline#/timeline/index) -- they were bought out by Dropbox (success for the creators!) and since then I havev found no equivalent, open-source tool to get bespoke computation-intensive Python running on scalable cloud computing, which *didn't* require extensive human capital creation and lots of time to set up. There are plenty of powerful ways to set up a grid and interface, but they require lots of skilled effort. PiCloud was painless. 
 
@@ -12,7 +12,7 @@ I'm hoping Spark will turn out to be the near-next-best thing. It's survived the
 
 Here are some sections:
 
-## Installing PySpark
+## 1.0 Installing PySpark
 
 These steps are for (X)Ubuntu 16.04. They will likely work for other Ubuntu/Debian flavors, and high-level variations on this theme should work for non-Linux systems. I use the steps from [Datacamp here](https://www.datacamp.com/community/tutorials/apache-spark-python), as inspiration, with my own variations.
 
@@ -57,9 +57,13 @@ Steps:
 
     pyspark
 
+8. Now let's start a Spark-powered Jupyter notebook:
+
+    IPYTHON=1 ./bin/pyspark  # or
+    IPYTHON_OPTS="notebook --pylab inline" ./bin/pyspark
 
 
-Code snippet comparing checksums:
+### 1.1 Code snippet comparing checksums:
         
     # Manually constructed hash:
     hash_from_file = "3FC94096AE34F9A1A148D37E5ED640A7E5DE1812F1F2ECD715D92BBF2901E895CF4B93E6D8EE0D64DEBB5DF7C56D673C0A36E5FC49503EC0F4507EB0EDF961A4"
@@ -68,21 +72,28 @@ Code snippet comparing checksums:
     # Compare using Python string utilities:
     hash_from_file.upper() == hash_from_sha512sum.upper()
 
-## Running a Basic, Local Example
+## 2.0 Running a Basic, Local Example
 
-## Running on the Cloud
+Please see this notebook. 
 
+## 3.0 Running on the Cloud
+
+Coming soon.
 
 ## Appendix A: Some Resources
 
 Pages I found useful:
 
 - [Install Java 8, Ubuntu 16.04](Some resource links: https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04)
+- Python Spark [programming guide from Apache](https://spark.apache.org/docs/0.9.0/python-programming-guide.html)
 - [Install Spark](https://www.datacamp.com/community/tutorials/apache-spark-python)
 - OpenOffice has a nice page on [checksums](https://www.openoffice.org/download/checksums.html) here. I try to use SHA512, which is commonly used. See [here](https://askubuntu.com/questions/61826/how-do-i-check-the-sha1-hash-of-a-file) for how to check/generate sha checksums. Note that sha1sum is the example stackoverflow provides, but typically you'll encounter sha512sum files. 
+- Running IPython/Jupyter notebooks under PySpark:
+    - [Spark homepage instructions](https://spark.apache.org/docs/0.9.0/python-programming-guide.html)
+    - Tutorials: [Supergloo tutorial](https://www.supergloo.com/fieldnotes/apache-spark-ipython-notebook-easy-way/), [Dataquest.io](https://www.dataquest.io/blog/pyspark-installation-guide/), [John Ramey](http://ramhiser.com/2015/02/01/configuring-ipython-notebook-support-for-pyspark/)
 
 
-### A Note on Checksums
+### A.1 - A Note on Checksums
 
 Assume you've downloaded an ".sha" file, but you don't know which checksum it is -- sha1, sha128, sha512? 
 
