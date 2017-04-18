@@ -55,7 +55,9 @@ Steps:
 
 7. Open new command line window and ensure that you can start pyspark from command line:
 
-    pyspark
+    pyspark  # or
+    
+    pyspark --master local[2]
 
 8. Now let's start a Spark-powered Jupyter notebook:
 
