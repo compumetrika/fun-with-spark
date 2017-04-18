@@ -88,7 +88,7 @@ Steps:
 
 ## 2.0 Running a Basic, Local Example
 
-Please see this notebook: [Spark Simple Regression Example]()
+Please see this notebook: [Spark Simple Regression Example](https://github.com/compumetrika/fun-with-spark/blob/master/Spark-Regression-Example.ipynb)
 
 ## 3.0 Running on the Cloud
 
