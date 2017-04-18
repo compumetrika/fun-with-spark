@@ -89,6 +89,7 @@ Pages I found useful:
 
 - [Install Java 8, Ubuntu 16.04](Some resource links: https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04)
 - Python Spark [docs from Apache](https://spark.apache.org/docs/latest/)
+    - [Programming guide](https://spark.apache.org/docs/latest/programming-guide.html)
 - [Install Spark](https://www.datacamp.com/community/tutorials/apache-spark-python)
 - OpenOffice has a nice page on [checksums](https://www.openoffice.org/download/checksums.html) here. I try to use SHA512, which is commonly used. See [here](https://askubuntu.com/questions/61826/how-do-i-check-the-sha1-hash-of-a-file) for how to check/generate sha checksums. Note that sha1sum is the example stackoverflow provides, but typically you'll encounter sha512sum files. 
 - Running IPython/Jupyter notebooks under PySpark:
