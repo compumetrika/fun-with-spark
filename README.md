@@ -20,13 +20,16 @@ Steps:
 
 1. Ensure you have Java JDK (currently 8 is most stable/recommended):
 
-    java -version
+    java -version # or
+    
     javac -version
 
 2. If not, install:
 
     sudo add-apt-repository ppa:webupd8team/java
+    
     sudo apt-get update
+    
     sudo apt-get install oracle-java8-installer 
 
 3. Download the latest stable Spark:
@@ -42,11 +45,13 @@ Steps:
 4. Unpack it and move to correct location:
 
     tar -xf spark-2.1.0-bin-hadoop2.7.tgz
+    
     mv spark-2.1.0-bin-hadoop2.7  ~/
 
 5. Update your .bashrc to point to the spark/bin:
 
     cp ~/.bashrc ~/.bashrc-pyspark.bak  # create backup .bashrc, always good idea
+    
     vim ~/.bashrc     # Sorry Chris!
 
 6. Add this line at the end of the file, where you can replace "~/" with "/home/{your_username}/" if you want.
