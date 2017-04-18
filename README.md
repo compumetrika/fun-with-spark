@@ -59,7 +59,7 @@ Steps:
     
     pyspark --master local[2]
 
-8. Now let's start a Spark-powered Jupyter notebook:
+8. Now let's start a [Spark-powered notebook](https://spark.apache.org/docs/latest/programming-guide.html#using-the-shell):
 
     IPYTHON=1 ./bin/pyspark  # or
     
