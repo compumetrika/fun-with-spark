@@ -67,6 +67,7 @@ Steps:
 8. Let's test it with an example file -- if successful should see "Pi is roughly 3.14xxx..." in mess of results:
 
     cd ~/spark-2.1.0-bin-hadoop2.7/examples/src/main/python
+    
     ~/spark-2.1.0-bin-hadoop2.7/bin/spark-submit pi.py
 
 9. Now the good stuff: we can use a Spark-powered [IPython command line](https://spark.apache.org/docs/latest/programming-guide.html#using-the-shell) as follows:
