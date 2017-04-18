@@ -60,6 +60,7 @@ Steps:
 8. Now let's start a Spark-powered Jupyter notebook:
 
     IPYTHON=1 ./bin/pyspark  # or
+    
     IPYTHON_OPTS="notebook --pylab inline" ./bin/pyspark
 
 
