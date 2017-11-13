@@ -1,4 +1,4 @@
-# Fun With Spark
+# Fun With Spark - README
 
 Parallel computation is one of the easiest ways to throw computational power at a problem. Technological development has made it cheaper and cheaper for the average person to do this. 
 
@@ -118,7 +118,7 @@ Steps:
 
     ```    
     export PYSPARK_DRIVER_PYTHON=jupyter
-    export PYSPARK_DRIVER_PYTHON_OPTS="notebook --NotebookApp.open_browser=True --NotebookApp.ip='localhost' --NotebookApp.port=8888"
+    export PYSPARK_DRIVER_PYTHON_OPTS="notebook --NotebookApp.open_browser=True --NotebookApp.ip='localhost' --NotebookApp.port=8898"
     pyspark
     ```
 
