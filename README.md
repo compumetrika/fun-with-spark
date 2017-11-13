@@ -16,80 +16,112 @@ Here are some sections:
 
 These steps are for (X)Ubuntu 16.04. They will likely work for other Ubuntu/Debian flavors, and high-level variations on this theme should work for non-Linux systems. I use the steps from [Datacamp here](https://www.datacamp.com/community/tutorials/apache-spark-python), as inspiration, with my own variations.
 
+Note: all instructions assume you are using the command line in Ubuntu or a Ubuntu variant. 
+
 Steps:
 
-1. Ensure you have Java JDK (currently 8 is most stable/recommended):
+1. Open a command-line terminal, create a directory for this project and navigate there. These commands will create a folder in your Ubuntu home directory:
+
+    cd ~                                # Navigate to home directory
+    
+    mkdir spark-project
+    
+    cd spark-project
+
+2. Ensure you have Java JDK by typing the following on the terminal:
 
     java -version # or
     
     javac -version
 
-2. If not, install:
+    - If nothing comes up, you need to install java. On Ubuntu, you can follow these steps to install. On the command line type these one at a time. This will add the Java repository and install Java 8: 
 
     sudo add-apt-repository ppa:webupd8team/java
-    
+        
     sudo apt-get update
-    
+        
     sudo apt-get install oracle-java8-installer 
 
-3. Download the latest stable Spark:
-    - From the [download page](https://spark.apache.org/downloads.html), grab most recent default (I used a .edu mirror)
-        - I use default options (Spark release 2.1.0; package type pre-built for Hadoop 2.7+; download type direct download)
-    - Pull appropriate checksum from the link at step 5 and check it (see more in the section below, "A Note on Checksums")
-        - I use sha; read more [here](https://www.openoffice.org/download/checksums.html) for general info
-        - Download the appropriate ".sha" file
-        - On ubuntu, I use "sha512sum 'filename'"
-        - This spits out a long single lowercase string. The "{filename}.sha" file has the number in uppercase ad split into chunks. 
-        - To compare, I manually construct a single string from the "{filename}.sha", and use Python to compare them. See the code snippet below.
-
-4. Unpack it and move to correct location:
-
-    tar -xf spark-2.1.0-bin-hadoop2.7.tgz
+3. Download the latest stable Spark. Two options: (i) manually download via the webpage of (ii) use the command line. 
+    a. Manual web browser: navigate the the [Spark download page](https://spark.apache.org/downloads.html) and download the most recent default (I used a .edu mirror). Use the default options (Spark release 2.2.0; package type pre-built for Hadoop 2.7+; download type direct download) and click through the links to download both the compressed file and the checksum to your "spark-project" directory. For checksum I use sha; read more [here](https://www.openoffice.org/download/checksums.html).
+    b. Command line options: 
     
-    mv spark-2.1.0-bin-hadoop2.7  ~/
+    cd ~/spark-project                  # if not already there
+    
+    wget http://www.gtlib.gatech.edu/pub/apache/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz  # download spark
+    
+    wget https://archive.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz.sha     # download sha checksum
+    
+4. [Optional but recommended] Generate the file checksum: 
 
-5. Update your .bashrc to point to the spark/bin:
+    cd ~/spark-project                  # if not already there
+    
+    sha512sum spark-2.2.0-bin-hadoop2.7.tgz > my_checksum_output   # save checksum output
 
+5. [Optional but recommended] To compare checksums, I'll use Python. The ">>>" lines are in the python command line. You can copy all of the lines with ">>>" as a block, and in ipython type "%paste" and they will execute. You'll want to see "True" printed out by Python. If you get False you should manually compare the checksums; if they do not agree this may indicate that the file you downloaded has been tampered with in some way. You may need to re-download from an alternate source.
+    
+    cd ~/spark-project                  # if not already there
+    
+    ipython
+    
+    >>> with open("spark-2.2.0-bin-hadoop2.7.tgz.sha", "r") as f:
+    
+    >>>     webpage_checksum_raw_string = f.read().replace('\n', '')  # Read entire line into a string. For windows may need import os; os.linesep
+    
+    >>> webpage_checksum = ''.join(webpage_checksum_raw_string.split()[1:]).lower()  # 4 string manipulations in one line!
+    
+    >>> with open("my_checksum_output", "r") as f:
+    
+    >>>     my_checksum_raw_string = f.read().replace('\n', '')  # Read entire line into a string. Ubuntu endline.
+    
+    >>> my_checksum = my_checksum_raw_string.split()[0]
+    
+    >>> print("\nChecksums are equal: " + str(webpage_checksum == my_checksum))
+
+6. Unpack it and move to correct location:
+
+    cd ~/spark-project                  # if not already there
+    
+    tar -xf spark-2.2.0-bin-hadoop2.7.tgz
+    
+    mv spark-2.2.0-bin-hadoop2.7 ~/
+
+7. Update your .bashrc to point to the spark/bin:
+
+    cd ~                                # move to home directory
+    
     cp ~/.bashrc ~/.bashrc-pyspark.bak  # create backup .bashrc, always good idea
     
-    vim ~/.bashrc     # Sorry Chris!
+    sed -i '$a export PATH="~/spark-2.2.0-bin-hadoop2.7/bin/:$PATH"' .bashrc    # Append this export command to end of file   
 
-6. Add this line at the end of the file, where you can replace "~/" with "/home/{your_username}/" if you want.
+    sed -i '$a export SPARK_HOME=
 
-    export PATH="~/spark-2.1.0-bin-hadoop2.7/bin/:$PATH"
+8. Open a **new terminal command line window**  and ensure that you can start pyspark from command line, or [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html) a job. These should spew a lot of text and eventually say "Spark 2.2.0" 
 
-7. Open new command line window and ensure that you can start pyspark from command line, or [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html) a job:
 
-    pyspark  # or
-    
+    pyspark  # or   
+     
     pyspark --master local[4]
 
-8. Let's test it with an example file -- if successful should see "Pi is roughly 3.14xxx..." in mess of results:
+8. Let's test it with an example file -- if successful should see "Pi is roughly 3.1xxxx..." in mess of results:
 
-    cd ~/spark-2.1.0-bin-hadoop2.7/examples/src/main/python
+    cd ~/spark-2.2.0-bin-hadoop2.7/examples/src/main/python
+
     spark-submit pi.py
 
 9. Now the good stuff: we can use a Spark-powered [IPython command line](https://spark.apache.org/docs/latest/programming-guide.html#using-the-shell) as follows:
 
     PYSPARK_DRIVER_PYTHON=ipython pyspark    
 
-10. ... or start a Spark-powered Jupyter notebook, hints [here](https://community.hortonworks.com/articles/75551/installing-and-exploring-spark-20-with-jupyter-not.html):
+10. ... or start a Spark-powered Jupyter notebook by executing the following three lines on your command line; hints [here](https://github.com/zipfian/spark-install/blob/master/README.md):
     
-    PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook' pyspark # or 
+    export PYSPARK_DRIVER_PYTHON=jupyter
+
+    export PYSPARK_DRIVER_PYTHON_OPTS="notebook --NotebookApp.open_browser=True --NotebookApp.ip='localhost' --NotebookApp.port=8888"
     
-    PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook' PYSPARK_PYTHON=python3 pyspark # if py3 
-    
+    pyspark
 
 
-
-### 1.1 Code snippet comparing checksums:
-        
-    # Manually constructed hash:
-    hash_from_file = "3FC94096AE34F9A1A148D37E5ED640A7E5DE1812F1F2ECD715D92BBF2901E895CF4B93E6D8EE0D64DEBB5DF7C56D673C0A36E5FC49503EC0F4507EB0EDF961A4"
-    # Hash from checksum utility:
-    hash_from_sha512sum = "3fc94096ae34f9a1a148d37e5ed640a7e5de1812f1f2ecd715d92bbf2901e895cf4b93e6d8ee0d64debb5df7c56d673c0a36e5fc49503ec0f4507eb0edf961a4"
-    # Compare using Python string utilities:
-    hash_from_file.upper() == hash_from_sha512sum.upper()
 
 ## 2.0 Running a Basic, Local Example
 
@@ -122,15 +154,15 @@ Pages I found useful:
 
 ### A.1 - A Note on Checksums
 
-Assume you've downloaded an ".sha" file, but you don't know which checksum it is -- sha1, sha128, sha512? 
+Assume you've downloaded an ".sha" file, but you you may notice that Ubuntu has multiple sha checksum programs -- sha1, sha128, sha512, etc.  
 
-You can check by opening up the {filename}.sha and counting -- the number of characters in the checksum times 4 is the checksum bitnumber. 
+You can determine which to use by opening up the {filename}.sha and counting -- the number of characters in the checksum times 4 is the checksum bitnumber. 
 
 For example, the checksum I downloaded for spark looks like this:
 
-    spark-2.1.0-bin-hadoop2.7.tgz: 3FC94096 AE34F9A1 A148D37E 5ED640A7 E5DE1812
-                                   F1F2ECD7 15D92BBF 2901E895 CF4B93E6 D8EE0D64
-                                   DEBB5DF7 C56D673C 0A36E5FC 49503EC0 F4507EB0
-                                   EDF961A4
+    spark-2.2.0-bin-hadoop2.7.tgz: 7A186A2A 007B2DFD 880571F7 214A7D32 9C972510
+                                   A460A8BD BEF9F7F2 A8910193 43C020F7 4B496A61
+                                   E5AA42BC 9E9A79CC 99DEFE5C B3BF8B6F 49C07E01
+                                   B259BC6B
 
 They helpfully arange it into groups of eight, in rows of five, so I know that there are 8\*16 characters. Since sha uses hexidecimal (numbers and letters A-F), each character needs 4 bits to represent it (sum([2\*\*x for x in range(4)]) + 1), so total bits needed = 8\*16\*4 = 512 -- we'll need to use the sha512sum function. 
