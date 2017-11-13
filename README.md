@@ -46,37 +46,36 @@ Steps:
     a. Manual web browser: navigate the the [Spark download page](https://spark.apache.org/downloads.html) and download the most recent default (I used a .edu mirror). Use the default options (Spark release 2.2.0; package type pre-built for Hadoop 2.7+; download type direct download) and click through the links to download both the compressed file and the checksum to your "spark-project" directory. For checksum I use sha; read more [here](https://www.openoffice.org/download/checksums.html).
     b. Command line options: 
     
-    cd ~/spark-project                  # if not already there
-    
-    wget http://www.gtlib.gatech.edu/pub/apache/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz  # download spark
-    
-    wget https://archive.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz.sha     # download sha checksum
+```
+cd ~/spark-project                  # if not already there
+wget http://www.gtlib.gatech.edu/pub/apache/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz  # download spark
+wget https://archive.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz.sha     # download sha checksum
+```
     
 4. [Optional but recommended] Generate the file checksum: 
 
-    cd ~/spark-project                  # if not already there
-    
-    sha512sum spark-2.2.0-bin-hadoop2.7.tgz > my_checksum_output   # save checksum output
+```
+cd ~/spark-project                  # if not already there
+sha512sum spark-2.2.0-bin-hadoop2.7.tgz > my_checksum_output   # save checksum output
+```
 
 5. [Optional but recommended] To compare checksums, I'll use Python. The ">>>" lines are in the python command line. You can copy all of the lines with ">>>" as a block, and in ipython type "%paste" and they will execute. You'll want to see "True" printed out by Python. If you get False you should manually compare the checksums; if they do not agree this may indicate that the file you downloaded has been tampered with in some way. You may need to re-download from an alternate source.
     
+    ```
     cd ~/spark-project                  # if not already there
-    
     ipython
+    ```
     
+    
+    ```python
     >>> with open("spark-2.2.0-bin-hadoop2.7.tgz.sha", "r") as f:
-    
     >>>     webpage_checksum_raw_string = f.read().replace('\n', '')  # Read entire line into a string. For windows may need import os; os.linesep
-    
     >>> webpage_checksum = ''.join(webpage_checksum_raw_string.split()[1:]).lower()  # 4 string manipulations in one line!
-    
     >>> with open("my_checksum_output", "r") as f:
-    
     >>>     my_checksum_raw_string = f.read().replace('\n', '')  # Read entire line into a string. Ubuntu endline.
-    
     >>> my_checksum = my_checksum_raw_string.split()[0]
-    
     >>> print("\nChecksums are equal: " + str(webpage_checksum == my_checksum))
+    ```
 
 6. Unpack it and move to correct location:
 
