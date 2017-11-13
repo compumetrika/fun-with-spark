@@ -22,42 +22,43 @@ Steps:
 
 1. Open a command-line terminal, create a directory for this project and navigate there. These commands will create a folder in your Ubuntu home directory:
 
-    cd ~                                # Navigate to home directory
-    
+    ```
+    cd ~                                # Navigate to home directory    
     mkdir spark-project
-    
     cd spark-project
-
+    ```
+    
 2. Ensure you have Java JDK by typing the following on the terminal:
 
-    java -version # or
-    
+    ```
+    java -version # or    
     javac -version
+    ```
 
     - If nothing comes up, you need to install java. On Ubuntu, you can follow these steps to install. On the command line type these one at a time. This will add the Java repository and install Java 8: 
 
+    ```
     sudo add-apt-repository ppa:webupd8team/java
-        
     sudo apt-get update
-        
     sudo apt-get install oracle-java8-installer 
-
+    ```
+    
 3. Download the latest stable Spark. Two options: (i) manually download via the webpage of (ii) use the command line. 
     a. Manual web browser: navigate the the [Spark download page](https://spark.apache.org/downloads.html) and download the most recent default (I used a .edu mirror). Use the default options (Spark release 2.2.0; package type pre-built for Hadoop 2.7+; download type direct download) and click through the links to download both the compressed file and the checksum to your "spark-project" directory. For checksum I use sha; read more [here](https://www.openoffice.org/download/checksums.html).
     b. Command line options: 
     
-```
-cd ~/spark-project                  # if not already there
-wget http://www.gtlib.gatech.edu/pub/apache/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz  # download spark
-wget https://archive.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz.sha     # download sha checksum
-```
+    ```
+    cd ~/spark-project                  # if not already there
+    wget http://www.gtlib.gatech.edu/pub/apache/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz  # download spark
+    wget https://archive.apache.org/dist/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz.sha     # download sha checksum
+    ```
     
 4. [Optional but recommended] Generate the file checksum: 
 
-```
-cd ~/spark-project                  # if not already there
-sha512sum spark-2.2.0-bin-hadoop2.7.tgz > my_checksum_output   # save checksum output
-```
+    ```
+    cd ~/spark-project                  # if not already there
+    sha512sum spark-2.2.0-bin-hadoop2.7.tgz > my_checksum_output   # save checksum output
+    ```
 
 5. [Optional but recommended] To compare checksums, I'll use Python. The ">>>" lines are in the python command line. You can copy all of the lines with ">>>" as a block, and in ipython type "%paste" and they will execute. You'll want to see "True" printed out by Python. If you get False you should manually compare the checksums; if they do not agree this may indicate that the file you downloaded has been tampered with in some way. You may need to re-download from an alternate source.
     
@@ -79,45 +80,47 @@ sha512sum spark-2.2.0-bin-hadoop2.7.tgz > my_checksum_output   # save checksum o
 
 6. Unpack it and move to correct location:
 
-    cd ~/spark-project                  # if not already there
-    
+    ```
+    cd ~/spark-project                  # if not already there    
     tar -xf spark-2.2.0-bin-hadoop2.7.tgz
-    
     mv spark-2.2.0-bin-hadoop2.7 ~/
+    ```
 
 7. Update your .bashrc to point to the spark/bin:
 
-    cd ~                                # move to home directory
-    
+    ```
+    cd ~                                # move to home directory    
     cp ~/.bashrc ~/.bashrc-pyspark.bak  # create backup .bashrc, always good idea
-    
     sed -i '$a export PATH="~/spark-2.2.0-bin-hadoop2.7/bin/:$PATH"' .bashrc    # Append this export command to end of file   
+    ```
 
 8. Open a **new terminal command line window**  and ensure that you can start pyspark from command line, or [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html) a job. These should spew a lot of text and eventually say "Spark 2.2.0" 
 
-
-    pyspark  # or   
-     
+    ```
+    pyspark  # or        
     pyspark --master local[4]
-
+    ```
+    
 8. Let's test it with an example file -- if successful should see "Pi is roughly 3.1xxxx..." in mess of results:
 
+    ```
     cd ~/spark-2.2.0-bin-hadoop2.7/examples/src/main/python
-
     spark-submit pi.py
-
+    ```
+    
 9. Now the good stuff: we can use a Spark-powered [IPython command line](https://spark.apache.org/docs/latest/programming-guide.html#using-the-shell) as follows:
 
+    ```
     PYSPARK_DRIVER_PYTHON=ipython pyspark    
-
+    ```
+    
 10. ... or start a Spark-powered Jupyter notebook by executing the following three lines on your command line; hints [here](https://github.com/zipfian/spark-install/blob/master/README.md):
-    
+
+    ```    
     export PYSPARK_DRIVER_PYTHON=jupyter
-
     export PYSPARK_DRIVER_PYTHON_OPTS="notebook --NotebookApp.open_browser=True --NotebookApp.ip='localhost' --NotebookApp.port=8888"
-    
     pyspark
-
+    ```
 
 
 ## 2.0 Running a Basic, Local Example
